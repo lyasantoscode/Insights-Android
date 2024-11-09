@@ -1,7 +1,7 @@
 # Insights-Android
 Arquivo destinado ao registro de aprendizado no desenvolvimento Android
 
-Anotações:
+## Anotação
 
 <img src="lifycycle.png" alt="Texto alternativo" width="900"/>
 
@@ -63,9 +63,9 @@ Esse ciclo de vida permite que o Android gerencie os recursos de forma eficiente
 
 #######################################################################
 
+## ANOTAÇÃO
 
-
-
+<img src="recycle.png" alt="Texto alternativo" width="900"/>
 
 
 
