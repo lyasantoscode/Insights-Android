@@ -1,6 +1,16 @@
 # Insights-Android
 Arquivo destinado ao registro de aprendizado no desenvolvimento Android
 
+Anotações:
+
+
+
+
+
+
+
+
+
 
 #######################################################################
 
