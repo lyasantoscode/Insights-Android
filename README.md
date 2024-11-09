@@ -1,6 +1,16 @@
 # Insights-Android
 Arquivo destinado ao registro de aprendizado no desenvolvimento Android
 
+
+#######################################################################
+
+
+<img src="recycle.png" alt="Texto alternativo" width="900"/>
+
+
+
+
+
 O RecyclerView é um componente poderoso no Android para exibir listas de dados de maneira eficiente. Aqui está uma explicação detalhada dos componentes mostrados no diagrama:
 1. RecyclerView
 
