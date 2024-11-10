@@ -663,4 +663,283 @@ public class MeuAdapter extends RecyclerView.Adapter<MeuAdapter.MeuViewHolder> {
     }
 }
 
+============================================================================================================
 
+onCreate(): Usado apenas uma vez, é o ponto de partida para a criação da Activity. Aqui você configura o layout inicial e inicializa componentes, como botões, textos e o que mais for necessário. Exemplo:
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    // Inicializa componentes
+}
+
+
+onStart(): Chamado depois de onCreate() ou após onRestart(). Aqui, a Activity já é visível para o usuário, mas ainda não está totalmente no controle. É um ótimo lugar para atualizar dados visíveis que podem ter mudado.
+
+onResume(): É chamado quando a Activity está no foco completo do usuário, permitindo interações. É aqui que você pode reiniciar animações, sons, ou outras atividades que requerem atenção total.
+
+onPause(): É chamado quando outra Activity aparece parcialmente sobre a atual (como um popup ou uma notificação). Ideal para pausar tarefas que não precisam ocorrer em segundo plano, como animações e reprodução de música.
+
+onStop(): A Activity não está mais visível. Isso acontece quando outra atividade assume a tela por completo. Aqui é onde você salva dados temporários ou libera recursos que não precisam ser mantidos em segundo plano.
+
+onDestroy(): A Activity está prestes a ser completamente destruída. Use para liberar todos os recursos que não são mais necessários, como instâncias do MediaPlayer, para evitar vazamentos de memória.
+
+
+
+Quando você usa o método onCreate() para configurar componentes do layout?
+
+O método onCreate() é utilizado no início da criação de uma Activity, sendo o momento ideal para configurar o layout e inicializar componentes como botões, textos, imagens e outros elementos da interface. É aqui que você associa o layout XML ao código Java e define as configurações iniciais que devem estar prontas para a Activity funcionar adequadamente.
+
+Exemplo prático de código:
+
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main); // Define o layout para a Activity
+
+    // Inicializa componentes do layout
+    TextView textView = findViewById(R.id.text_view);
+    Button button = findViewById(R.id.button);
+    EditText editText = findViewById(R.id.edit_text);
+
+    // Configurações iniciais, como texto ou cor
+    textView.setText("Bem-vindo!");
+    editText.setHint("Digite seu nome");
+}
+
+
+Como você implementaria o evento de clique em um botão usando setOnClickListener em uma Activity?
+
+Para implementar um evento de clique em um botão, você pode usar o método setOnClickListener, que define o que deve acontecer quando o botão é clicado. Geralmente, isso é feito dentro do onCreate() para que a funcionalidade seja definida logo que a Activity é criada.
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    // Inicializa o botão
+    Button button = findViewById(R.id.button);
+
+    // Define o evento de clique para o botão
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // Ação ao clicar no botão
+            Toast.makeText(getApplicationContext(), "Botão clicado!", Toast.LENGTH_SHORT).show();
+        }
+    });
+}
+
+
+Nesse exemplo, o Toast.makeText() exibe uma mensagem temporária na tela sempre que o botão é clicado. Você pode substituir essa ação por qualquer outra lógica que precise executar ao clicar no botão.
+
+================================================================================
+
+Diferença entre EditText, TextView e Button e quando usar cada um:
+
+    EditText: É um componente de entrada de texto. Usado quando você precisa que o usuário insira dados, como em um formulário para inserir nome, email ou senha.
+        Exemplo: Formulários de cadastro, campos de pesquisa, inserção de comentários.
+
+    TextView: Exibe texto ao usuário, mas é apenas para visualização (não é editável). Usado para mostrar mensagens, rótulos, títulos ou informações estáticas na interface.
+        Exemplo: Exibição de informações como títulos de seções, mensagens de erro, ou o resultado de uma operação.
+
+    Button: É um componente interativo que o usuário pode clicar para executar uma ação. Usado quando há necessidade de um botão de ação, como enviar, cancelar ou confirmar.
+        Exemplo: Botão para enviar um formulário, abrir outra Activity ou iniciar uma operação.
+
+
+<EditText
+    android:id="@+id/editTextName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:hint="Digite seu nome" />
+
+<TextView
+    android:id="@+id/textViewMessage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Mensagem ao usuário" />
+
+<Button
+    android:id="@+id/buttonSubmit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Enviar" />
+
+
+Como o RecyclerView funciona e os papéis do Adapter, ViewHolder, e LayoutManager:
+
+    RecyclerView: É um componente para exibir listas de dados de forma eficiente. Ele recicla as visualizações de itens que saem da tela, melhorando o desempenho em listas grandes. Em vez de criar uma nova visualização para cada item, ele reutiliza as visualizações quando elas ficam fora de vista, o que economiza memória e processamento.
+
+    Adapter: Serve como intermediário entre os dados e a interface gráfica. O Adapter adapta os dados para serem exibidos no RecyclerView, criando e configurando as visualizações para cada item da lista.
+
+    ViewHolder: É uma classe interna do Adapter que armazena as referências dos componentes da interface de cada item da lista (como TextViews, ImageViews etc.), evitando chamadas repetidas a findViewById, o que melhora o desempenho.
+
+    LayoutManager: Define como os itens do RecyclerView serão dispostos na tela, como uma lista vertical, uma grade ou um layout horizontal.
+
+// Adapter que cria ViewHolder e exibe dados no RecyclerView
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+    private List<User> userList;
+
+    public UserAdapter(List<User> users) {
+        this.userList = users;
+    }
+
+    @Override
+    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+        return new UserViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(UserViewHolder holder, int position) {
+        User user = userList.get(position);
+        holder.nameTextView.setText(user.getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return userList.size();
+    }
+
+    // ViewHolder que guarda as referências dos componentes de um item
+    public class UserViewHolder extends RecyclerView.ViewHolder {
+        TextView nameTextView;
+
+        public UserViewHolder(View itemView) {
+            super(itemView);
+            nameTextView = itemView.findViewById(R.id.textViewName);
+        }
+    }
+}
+
+// Configuração do RecyclerView na Activity
+RecyclerView recyclerView = findViewById(R.id.recyclerView);
+recyclerView.setLayoutManager(new LinearLayoutManager(this));
+recyclerView.setAdapter(new UserAdapter(userList));
+
+
+Por que o RecyclerView é mais eficiente do que uma ListView em listas grandes?
+
+O RecyclerView é mais eficiente do que o ListView principalmente por seu sistema de reciclagem de itens e gerenciamento de layouts. Ele evita recriar visualizações para cada item, reaproveitando as visualizações fora da tela. Isso reduz o consumo de memória e o processamento, o que é crucial para listas grandes. Além disso, o RecyclerView oferece mais flexibilidade e controle com o uso do Adapter, ViewHolder e LayoutManager, permitindo implementar layouts complexos (como grids ou listas horizontais) de forma otimizada.
+
+===============================================================================
+O que é o SharedPreferences e para que ele é usado em um aplicativo Android?
+
+O SharedPreferences é uma interface no Android usada para armazenar dados simples de chave-valor de forma persistente. Ele é comumente utilizado para salvar pequenas quantidades de dados, como preferências do usuário, configurações ou informações temporárias que precisam ser mantidas entre sessões do aplicativo. Por exemplo, você pode usá-lo para salvar o status de login do usuário, o idioma selecionado ou uma anotação temporária.
+
+Exemplo de código para salvar uma string chamada "anotação" usando o SharedPreferences:
+
+// Instancia o SharedPreferences com o nome do arquivo "MinhasPreferencias"
+SharedPreferences sharedPreferences = getSharedPreferences("MinhasPreferencias", MODE_PRIVATE);
+
+// Obtém o editor para salvar a string "anotação"
+SharedPreferences.Editor editor = sharedPreferences.edit();
+editor.putString("chave_anotacao", "Esta é minha anotação");
+
+// Confirma as mudanças
+editor.apply(); // ou editor.commit(); (apply é assíncrono, commit é síncrono)
+
+
+Nesse exemplo, "MinhasPreferencias" é o nome do arquivo onde os dados serão salvos. "chave_anotacao" é a chave usada para acessar a string "anotação".
+
+Como você recuperaria uma string salva no SharedPreferences ao abrir o aplicativo?
+
+Para recuperar a string salva, você usa o método getString() do SharedPreferences, passando a chave usada ao salvar o valor. Por exemplo
+
+// Acessa o SharedPreferences
+SharedPreferences sharedPreferences = getSharedPreferences("MinhasPreferencias", MODE_PRIVATE);
+
+// Recupera a string salva, com um valor padrão caso a chave não exista
+String anotacao = sharedPreferences.getString("chave_anotacao", "Sem anotação");
+
+// Exibe a anotação recuperada (ou o valor padrão, se não existir)
+System.out.println(anotacao);
+
+Aqui, se a chave "chave_anotacao" não tiver um valor salvo, a string "Sem anotação" será retornada como valor padrão.
+
+Qual é a vantagem de usar SharedPreferences para salvar dados temporários?
+
+A principal vantagem do SharedPreferences é a simplicidade e eficiência para salvar pequenos dados de forma persistente entre sessões do aplicativo. Ele é ideal para dados leves e temporários, como configurações e estados de preferências, porque:
+
+    Persistência: Mesmo após o fechamento do aplicativo, os dados permanecem armazenados até serem removidos ou substituídos.
+    Facilidade de uso: É fácil de implementar e acessar, ideal para configurações simples.
+    Economia de memória: SharedPreferences é mais leve do que armazenar informações em um banco de dados SQLite para pequenas quantidades de dados.
+
+Em resumo, SharedPreferences é uma solução prática e eficiente para salvar informações que precisam estar disponíveis de uma sessão para outra sem a complexidade de um banco de dados.
+
+=====================================================================================
+Como você configura o MediaPlayer para tocar um áudio a partir de um arquivo armazenado na pasta res/raw?
+
+Para configurar o MediaPlayer com um arquivo de áudio que está na pasta res/raw, você usa o método MediaPlayer.create(), passando o contexto do aplicativo e o recurso de áudio desejado.
+
+Exemplo de código:
+
+// Configura o MediaPlayer para reproduzir um áudio armazenado em res/raw
+MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.nome_do_arquivo); // "nome_do_arquivo" é o nome do arquivo de áudio (sem extensão)
+
+// Inicia a reprodução
+mediaPlayer.start();
+
+Esse código inicializa o MediaPlayer e o configura para tocar um áudio que está na pasta res/raw. O áudio começará a tocar assim que o start() for chamado.
+
+Como você pausaria a reprodução de áudio ao minimizar o aplicativo? Explique com um trecho de código.
+
+Para pausar o áudio quando o aplicativo é minimizado, você pode usar o método onPause() da Activity. O onPause() é chamado automaticamente quando o aplicativo é minimizado ou perde o foco. Dentro dele, você verifica se o MediaPlayer está tocando e, se estiver, você o pausa.
+
+Exemplo de código:
+
+@Override
+protected void onPause() {
+    super.onPause();
+    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        mediaPlayer.pause(); // Pausa o áudio ao minimizar o aplicativo
+    }
+}
+
+
+Esse código garante que o áudio será pausado sempre que o aplicativo for minimizado ou a Activity perder o foco.
+
+Por que é importante liberar os recursos do MediaPlayer no método onDestroy()?
+
+É importante liberar os recursos do MediaPlayer no onDestroy() para evitar problemas de memória e liberar recursos que o MediaPlayer estava utilizando. O MediaPlayer utiliza memória, processamento e, em alguns casos, até mesmo controle de hardware de áudio. Se esses recursos não forem liberados, o aplicativo pode causar vazamento de memória (memory leaks) ou problemas de desempenho no dispositivo.
+
+No método onDestroy(), você usa mediaPlayer.release() para liberar todos os recursos associados ao MediaPlayer, garantindo que ele não estará mais ocupando espaço na memória.
+
+Exemplo de código:
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    if (mediaPlayer != null) {
+        mediaPlayer.release(); // Libera os recursos do MediaPlayer
+        mediaPlayer = null; // Define como null para evitar uso posterior
+    }
+}
+
+
+Esse trecho de código assegura que o MediaPlayer será corretamente encerrado e todos os recursos serão liberados quando a Activity for destruída.
+
+
+Usar a condição if (mediaPlayer != null) é importante para garantir que o MediaPlayer foi inicializado antes de tentar chamá-lo. Esse tipo de verificação previne que o aplicativo tente acessar ou manipular o MediaPlayer quando ele não existe, evitando assim erros e exceções que poderiam causar a falha do aplicativo.
+Motivos para Usar if (mediaPlayer != null)
+
+    Prevenir NullPointerException: Se o mediaPlayer não foi inicializado (ou foi liberado com release()), ele será null. Tentar acessar um objeto null causa uma NullPointerException, que interrompe o funcionamento do aplicativo.
+
+    Segurança nas Operações: O mediaPlayer pode ter sido liberado (por exemplo, no onDestroy()). Verificar if (mediaPlayer != null) garante que o código só tente manipular o mediaPlayer se ele ainda estiver disponível e válido.
+
+    Boas Práticas de Programação: Esse tipo de verificação ajuda a manter o código robusto e mais seguro contra erros inesperados, especialmente em aplicativos que utilizam recursos de mídia, que podem ser liberados ou inicializados de forma assíncrona.
+
+Exemplo
+
+Ao pausar o áudio no onPause(), usamos essa verificação:
+@Override
+protected void onPause() {
+    super.onPause();
+    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        mediaPlayer.pause();
+    }
+}
+
+Nesse caso, if (mediaPlayer != null) evita que o aplicativo tente pausar um MediaPlayer inexistente, o que poderia causar uma exceção. Essa verificação é especialmente útil se o mediaPlayer foi liberado em algum momento anterior no ciclo de vida da atividade.
